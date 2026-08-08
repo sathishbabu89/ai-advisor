@@ -22,10 +22,10 @@ END
 
 from langgraph.graph import StateGraph, START, END
 
-from graph.state import AgentState
-from agents.intent_agent import IntentAgent
-from agents.knowledge_agent import KnowledgeAgent
-from agents.advisor_agent import AdvisorAgent
+from app.graph.state import AgentState
+from app.agents.intent_agent import IntentAgent
+from app.agents.knowledge_agent import KnowledgeAgent
+from app.agents.advisor_agent import AdvisorAgent
 
 
 class InvestAIWorkflow:

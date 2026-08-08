@@ -1,6 +1,6 @@
 import logging
 
-from llm.groq_client import GroqClient
+from app.llm.groq_client import GroqClient
 
 logging.basicConfig(
     level=logging.INFO,

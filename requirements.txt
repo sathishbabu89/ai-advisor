@@ -3,6 +3,16 @@ uvicorn
 langgraph
 langchain
 langchain-core
+langchain-community
+langchain-huggingface
+langchain-chroma
+chromadb
+sentence-transformers
 python-dotenv
 openai
 pydantic
+pypdf
+fastapi
+uvicorn
+deepeval
+langsmith

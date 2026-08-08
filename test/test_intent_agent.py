@@ -16,8 +16,8 @@ Expected Flow:
 
 import logging
 
-from agents.intent_agent import IntentAgent
-from graph.state import AgentState
+from app.agents.intent_agent import IntentAgent
+from app.graph.state import AgentState
 
 
 logging.basicConfig(

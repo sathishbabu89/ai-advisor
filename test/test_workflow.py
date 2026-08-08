@@ -23,15 +23,13 @@ Final Response
 
 import logging
 
-from graph.workflow import InvestAIWorkflow
-from graph.state import AgentState
-
+from app.graph.workflow import InvestAIWorkflow
+from app.graph.state import AgentState
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
-
 
 def main():
 

@@ -8,8 +8,8 @@ Purpose:
 
 import logging
 
-from graph.state import AgentState
-from llm.groq_client import GroqClient
+from app.graph.state import AgentState
+from app.llm.groq_client import GroqClient
 
 logger = logging.getLogger(__name__)
 
