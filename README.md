@@ -97,3 +97,22 @@ When modifying the workflow, remember there are two execution paths: the `/query
 - **Vector store rebuild**: `documents/` → `chroma_db/` is a one-shot ingestion. The API expects the store to already exist when it starts (init fails otherwise). Run ingestion first.
 - **Testing style**: there are no pytest files under `test/` — each file is a standalone runnable script with a `main()` guarded by `if __name__ == "__main__"`. Add new tests as new scripts following this pattern.
 - **Logging**: every module creates a logger via `logging.getLogger(__name__)`. Production runs should configure logging at the entry point.
+
+## Sprint 1 - LangGraph Orchestration
+
+Implemented:
+
+✅ FastAPI query flow integrated with LangGraph workflow
+
+✅ Introduced shared AgentState
+
+✅ Connected Intent, Knowledge and Advisor agents
+
+✅ Preserved RetrievalResult across workflow execution
+
+✅ Retained asynchronous DeepEval evaluation
+
+Result:
+
+LangGraph is now the orchestration layer
+for the InvestAI query execution pipeline.
