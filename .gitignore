@@ -1,20 +1,70 @@
-# Virtual Environment
+# ==========================
+# Python Environment
+# ==========================
+
 venv/
 ENV/
 env/
 
-# Credentials & Configurations
+
+# ==========================
+# Environment Variables
+# ==========================
+
 .env
 *.env
 
-# Python caching
+
+# ==========================
+# Python Cache
+# ==========================
+
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
 
-# IDE files
+
+# ==========================
+# IDE
+# ==========================
+
 .vscode/
 .idea/
 
-README.md
+
+# ==========================
+# RAG / Vector Database
+# ==========================
+
+chroma_db/
+
+
+# ==========================
+# DeepEval Artifacts
+# ==========================
+
+.deepeval/
+
+
+# ==========================
+# Logs
+# ==========================
+
+*.log
+
+
+# ==========================
+# Model Cache
+# ==========================
+
+models/
+.cache/
+
+
+# ==========================
+# OS Files
+# ==========================
+
+.DS_Store
+Thumbs.db
