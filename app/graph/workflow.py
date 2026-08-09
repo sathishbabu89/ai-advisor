@@ -51,12 +51,12 @@ class InvestAIWorkflow:
 
         builder.add_node(
             "knowledge_agent",
-            self.knowledge_agent.execute
+            self.knowledge_node            
         )
 
         builder.add_node(
             "advisor_agent",
-            self.advisor_agent.execute
+            self.advisor_node
         )
 
         # Define Workflow
@@ -67,6 +67,34 @@ class InvestAIWorkflow:
 
         # Compile workflow
         self.graph = builder.compile()
+
+    def advisor_node(
+            self,
+            state: AgentState
+    ):
+
+        return self.advisor_agent.execute(
+            state
+        )
+
+    def knowledge_node(
+        self,
+        state: AgentState
+    ):
+
+        result = self.knowledge_agent.process(
+            state["question"]
+        )
+
+        state["retrieval_result"] = (
+            result["retrieval_result"]
+        )
+
+        state["final_response"] = (
+            result["answer"]
+        )
+
+        return state
 
     def invoke(self, state: AgentState) -> AgentState:
         """

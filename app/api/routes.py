@@ -1,9 +1,6 @@
 import logging
 
-from fastapi import (
-    APIRouter,
-    BackgroundTasks
-)
+from fastapi import APIRouter, BackgroundTasks
 
 from app.api.schemas import (
     QueryRequest,
@@ -11,7 +8,7 @@ from app.api.schemas import (
     IngestResponse
 )
 
-from app.agents.knowledge_agent import KnowledgeAgent
+from app.graph.workflow import InvestAIWorkflow
 
 
 logger = logging.getLogger(__name__)
@@ -20,8 +17,8 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-# Initialize once when FastAPI starts
-knowledge_agent = KnowledgeAgent()
+# Initialize workflow once
+workflow = InvestAIWorkflow()
 
 
 # ==========================================================
@@ -37,48 +34,70 @@ def query(
     background_tasks: BackgroundTasks
 ):
     """
-    Execute the complete RAG pipeline.
+    Execute the complete LangGraph workflow.
 
     Workflow
     --------
-    1. Generate the answer synchronously.
+    1. Execute LangGraph workflow.
     2. Schedule response evaluation in the background.
     3. Immediately return the generated answer.
     """
 
-    logger.info(
-        "Query API called."
+    logger.info("Query API called.")
+
+    # ----------------------------------------------------------
+    # Step 1 : Execute LangGraph Workflow
+    # ----------------------------------------------------------
+
+    initial_state = {
+
+        "question": request.question,
+
+        "intent": "",
+
+        "retrieval_result": None,
+
+        "retrieved_context": "",
+
+        "final_response": "",
+
+        "metadata": {},
+
+        "error": ""
+    }
+
+    result = workflow.invoke(
+        initial_state
     )
 
-    # Step 1 : Generate Answer
-    result = knowledge_agent.process(
-        request.question
-    )
-
+    # ----------------------------------------------------------
     # Step 2 : Schedule Background Evaluation
+    # ----------------------------------------------------------
+
     background_tasks.add_task(
 
-        knowledge_agent.evaluate_async,
+        workflow.knowledge_agent.evaluate_async,
 
         question=request.question,
 
-        answer=result["answer"],
+        answer=result["final_response"],
 
-        retrieval_result=result["retrieval_result"]
-
+        retrieval_result=result.get("retrieval_result")
     )
 
+    # ----------------------------------------------------------
     # Step 3 : Return Response Immediately
+    # ----------------------------------------------------------
+
     return QueryResponse(
 
         question=request.question,
 
-        answer=result["answer"],
+        answer=result["final_response"],
 
         evaluation={
             "status": "Evaluation scheduled"
         }
-
     )
 
 
@@ -91,6 +110,7 @@ def query(
     response_model=IngestResponse
 )
 def ingest():
+
     """
     Build or rebuild the Vector Database.
     """
@@ -99,7 +119,7 @@ def ingest():
         "Ingestion API called."
     )
 
-    knowledge_agent.ingest_documents()
+    workflow.knowledge_agent.ingest_documents()
 
     logger.info(
         "Document ingestion completed."
